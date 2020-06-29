@@ -2,12 +2,17 @@ package com.codepath.android.booksearch.models;
 
 import android.text.TextUtils;
 
+import androidx.versionedparcelable.ParcelField;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import org.parceler.Parcel;
+
+@Parcel
 public class Book {
     private String openLibraryId;
     private String author;

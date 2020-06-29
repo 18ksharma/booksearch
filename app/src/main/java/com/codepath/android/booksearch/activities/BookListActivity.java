@@ -24,6 +24,7 @@ import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -57,6 +58,7 @@ public class BookListActivity extends AppCompatActivity {
                         "An item at position " + position + " clicked!",
                         Toast.LENGTH_SHORT).show();
                 Intent i = new Intent(BookListActivity.this, BookDetailActivity.class);
+                i.putExtra("user", Parcels.wrap(abooks));
                 startActivity(i);
 
 
