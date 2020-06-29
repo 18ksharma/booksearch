@@ -3,6 +3,7 @@ package com.codepath.android.booksearch.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -57,6 +58,7 @@ public class BookListActivity extends AppCompatActivity {
                         BookListActivity.this,
                         "An item at position " + position + " clicked!",
                         Toast.LENGTH_SHORT).show();
+                //showDetailsForBook(abooks(position));
                 Intent i = new Intent(BookListActivity.this, BookDetailActivity.class);
                 i.putExtra("user", Parcels.wrap(abooks));
                 startActivity(i);
@@ -119,6 +121,12 @@ public class BookListActivity extends AppCompatActivity {
                         "Request failed with code " + statusCode + ". Response message: " + responseString);
             }
         });
+    }
+
+    public void showDetailsForBook(Book selectedBook){
+        Intent i = new Intent(this, BookDetailActivity.class);
+        i.putExtra("bookObject", (Parcelable) selectedBook);
+        startActivity(i);
     }
 
     @Override
