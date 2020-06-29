@@ -1,13 +1,18 @@
 package com.codepath.android.booksearch.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +28,9 @@ import org.json.JSONException;
 import java.util.ArrayList;
 
 import okhttp3.Headers;
+import androidx.appcompat.widget.SearchView;
+
+
 
 
 public class BookListActivity extends AppCompatActivity {
@@ -48,6 +56,9 @@ public class BookListActivity extends AppCompatActivity {
                         BookListActivity.this,
                         "An item at position " + position + " clicked!",
                         Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(BookListActivity.this, BookDetailActivity.class);
+                startActivity(i);
+
 
                 // Handle item click here:
                 // Create Intent to start BookDetailActivity
@@ -55,6 +66,7 @@ public class BookListActivity extends AppCompatActivity {
                 // Pass the book into details activity using extras
             }
         });
+
 
         // Attach the adapter to the RecyclerView
         rvBooks.setAdapter(bookAdapter);
@@ -65,6 +77,8 @@ public class BookListActivity extends AppCompatActivity {
         // Fetch the data remotely
         fetchBooks("Oscar Wilde");
     }
+
+
 
     // Executes an API call to the OpenLibrary search endpoint, parses the results
     // Converts them into an array of book objects and adds them to the adapter
@@ -107,10 +121,32 @@ public class BookListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_book_list, menu);
-        return true;
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_book_list, menu);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() { //might need to check this
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // perform query here
+
+                // workaround to avoid issues with some emulators and keyboard devices firing twice if a keyboard enter is used
+                // see https://code.google.com/p/android/issues/detail?id=24599
+
+                fetchBooks(query);
+                searchView.clearFocus();
+
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

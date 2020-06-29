@@ -35,7 +35,7 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
     }
 
     // View lookup cache
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         public ImageView ivCover;
         public TextView tvTitle;
         public TextView tvAuthor;
@@ -52,9 +52,25 @@ public class BookAdapter extends RecyclerView.Adapter<BookAdapter.ViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    clickListener.onItemClick(itemView, getAdapterPosition());
+                    //clickListener.onItemClick(itemView, getAdapterPosition());
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(itemView, position);
+                        }
+                    }
                 }
             });
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (listener != null) {
+                int position = getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    listener.onItemClick(itemView, position);
+                }
+            }
         }
     }
 

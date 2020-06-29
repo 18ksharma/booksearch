@@ -7,12 +7,16 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+
+import com.bumptech.glide.Glide;
 import com.codepath.android.booksearch.R;
+import com.codepath.android.booksearch.models.Book;
 
 public class BookDetailActivity extends AppCompatActivity {
     private ImageView ivBookCover;
     private TextView tvTitle;
     private TextView tvAuthor;
+    Book book;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,9 @@ public class BookDetailActivity extends AppCompatActivity {
         // Extract book object from intent extras
 
         // Use book object to populate data into views
+        /*tvTitle.setText(book.getTitle());
+        tvAuthor.setText(book.getAuthor());
+        Glide.with(this).load(book.getCoverUrl()).override(300, 600).into(ivBookCover);*/
     }
 
 
